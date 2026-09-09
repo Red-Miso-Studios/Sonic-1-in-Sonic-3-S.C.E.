@@ -270,7 +270,7 @@ LevelScreen:
 
 .notdemo
 		jsr	(DeformBgLayer).w
-		jsr	(Level_Events).w
+		jsrb	Level_Events
 		jsrb	Handle_Onscreen_Water_Height
 		jsr	(Load_Rings).w
 		jsr	(Animate_Palette).w
