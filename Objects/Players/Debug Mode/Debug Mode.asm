@@ -214,10 +214,10 @@ Debug_Mode:
 		beq.s	.stayindebug							; if not, branch
 		clr.w	(Debug_placement_mode).w					; deactivate debug mode
 		disableInts
-		lea	(HUD_DrawZeroRingsSS).w,a1
+		lea	(HUD_DrawZeroRingsSS).l,a1
 		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
 		beq.s	.special							; if yes, branch
-		lea	(HUD_DrawInitial).w,a1
+		lea	(HUD_DrawInitial).l,a1
 		move.b	#1,(Update_HUD_score).w
 		move.b	#$80,(Update_HUD_ring_count).w
 

@@ -8,7 +8,7 @@ Title_BackgroundInit:
 		bsr.w	Title_Deform
 
 		; update BG
-		jsr	(Reset_BGTileOffsetPositionHScroll).w
+		bsr.w	Reset_BGTileOffsetPositionHScroll
 		lea	GHZ1_BGDrawArray(pc),a4
 		lea	(H_scroll_table+$100).w,a5
 		clr.l	(a5)								; update clouds (draw the starting position)
@@ -22,14 +22,14 @@ Title_BackgroundInit:
 		and.w	d3,d4								; align
 		move.w	d4,$A(a5)							; update mountains 2 (copy for Draw_TileColumn)
 		clr.l	$C(a5)								; update water (draw the starting position)
-		jsr	(Refresh_PlaneTileDeformHScroll).w
+		bsr.w	Refresh_PlaneTileDeformHScroll
 
 		; deform
 		lea	GHZ1_BGDeformArray(pc),a4
 		lea	(H_scroll_table).w,a5
 		lea	(H_scroll_buffer+2).w,a1
 		move.w	(Camera_Y_pos_BG_copy).w,d0
-		jmp	(ApplyCustomDeformation).w
+		bra.w	ApplyCustomDeformation
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -45,14 +45,14 @@ Title_BackgroundEvent:
 		clr.w	$C(a6)								; water (not update)
 		moveq	#0,d6								; Camera_Y_pos_rounded
 		moveq	#(GHZ1_BGDrawArray_end-GHZ1_BGDrawArray)/2,d5
-		jsr	(Draw_BGHDeformNoVert).w
+		bsr.w	Draw_BGHDeformNoVert
 
 		; deform
 		lea	GHZ1_BGDeformArray(pc),a4
 		lea	(H_scroll_table).w,a5
 		lea	(H_scroll_buffer+2).w,a1
 		move.w	(Camera_Y_pos_BG_copy).w,d0
-		jmp	(ApplyCustomDeformation).w
+		bra.w	ApplyCustomDeformation
 
 ; =============== S U B R O U T I N E =======================================
 

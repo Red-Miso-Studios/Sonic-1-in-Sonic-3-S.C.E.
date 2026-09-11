@@ -323,7 +323,7 @@ SpecialStageScreen:
 		jsr	(Load_VDP).w
 		jsr	(Clear_DisplayData).w
 		clearRAM Object_RAM, Object_RAM_end					; clear object RAM
-		jsr	(HUD_DrawInitial).w
+		jsr	(HUD_DrawInitial).l						; init HUD
 		move.b	#1,(Update_HUD_score).w
 		clr.b	(HUD_RAM.status).w
 		clr.b	(Level_started_flag).w

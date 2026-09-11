@@ -49,7 +49,7 @@ Game_Program:
 		jsr	(Init_DMA_Queue).w
 		jsr	(Init_VDP).w
 		jsr	(SndDrvInit).l
-		bsr.s	Init_Controllers
+		bsr.w	Init_Controllers
 
 	ifdef __DEBUG__
 		move.w	#1,(Player_option).w						; set Sonic Alone player
