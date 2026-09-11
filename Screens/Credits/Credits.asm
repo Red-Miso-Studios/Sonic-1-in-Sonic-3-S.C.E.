@@ -90,7 +90,13 @@ CreditsScreen:
 		addq.w	#2,(Credits.routine).w
 		lea	CreditsText_Index(pc),a1
 		adda.w	(a1,d0.w),a1
-		move.l	#$A0018100,d5							; VRAM shift (font pos in VRAM) ; large and small font
+
+		; VRAM shift (font pos in VRAM) ; large and small font
+		move.l	#words_to_long( \
+		make_art_tile(1,1,TRUE), \
+		make_art_tile($100,0,TRUE) \
+		),d5
+
 		bsr.w	Credits_LoadText
 
 		; set
@@ -178,7 +184,13 @@ Credits_Process_LoadText:
 		move.w	(a1,d0.w),d0
 		beq.s	.loadtextend							; if zero, branch
 		adda.w	d0,a1
-		move.l	#$A0018100,d5							; VRAM shift (font pos in VRAM) ; large and small font
+
+		; VRAM shift (font pos in VRAM) ; large and small font
+		move.l	#words_to_long( \
+		make_art_tile(1,1,TRUE), \
+		make_art_tile($100,0,TRUE) \
+		),d5
+
 		bsr.s	Credits_LoadText
 		jmp	(Pal_FadeFromBlack).w
 ; ---------------------------------------------------------------------------
@@ -206,7 +218,13 @@ Credits_Process_LoadText:
 		lea	Credits_TextTryAgain(pc),a1
 
 .loadtext
-		move.l	#$80018100,d5							; VRAM shift (font pos in VRAM) ; large and small font
+
+		; VRAM shift (font pos in VRAM) ; large and small font
+		move.l	#words_to_long( \
+		make_art_tile(1,0,TRUE), \
+		make_art_tile($100,0,TRUE) \
+		),d5
+
 		bsr.s	Credits_LoadText
 
 		; load player palette
