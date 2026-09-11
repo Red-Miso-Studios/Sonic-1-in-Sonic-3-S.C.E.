@@ -23,8 +23,8 @@ LZ3_ForegroundInit:
 LZ1_ForegroundInit:
 
 		; update FG
-		jsr	(Reset_FGTileOffsetPositionHScroll).w
-		jmp	(Refresh_PlaneFullHScroll).w
+		bsr.w	Reset_FGTileOffsetPositionHScroll
+		bra.w	Refresh_PlaneFullHScroll
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -33,7 +33,7 @@ LZ1_ForegroundEvent:
 		add.w	d0,(Camera_Y_pos_copy).w
 
 		; update FG
-		jmp	(Draw_FGAsYouMove).w
+		bra.w	Draw_FGAsYouMove
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -41,9 +41,9 @@ LZ1_BackgroundInit:
 		bsr.s	LZ1_Deform
 
 		; update BG
-		jsr	(Reset_BGTileOffsetPositionHScroll).w
+		bsr.w	Reset_BGTileOffsetPositionHScroll
 		moveq	#0,d1								; Camera_X_pos_BG_copy
-		jsr	(Refresh_PlaneFullHScroll).w
+		bsr.w	Refresh_PlaneFullHScroll
 
 		; deform
 		bra.s	LZ1_ApplyDeformWater
@@ -60,7 +60,7 @@ LZ1_BackgroundEvent:
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1								; Camera_X_pos_BG_copy
 		moveq	#gameplay_plane_width/block_width,d6
-		jsr	(Draw_TileRow).w
+		bsr.w	Draw_TileRow
 		bsr.s	LZ1_ApplyDeformWater
 		jmp	(ShakeScreen_Setup).w
 ; ---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ LZ1_ApplyDeformWater:
 .normal
 
 		; if water isn't showing at all, only do non-water deformation
-		jmp	(PlainDeformation).w
+		bra.w	PlainDeformation
 ; ---------------------------------------------------------------------------
 
 .water
@@ -114,7 +114,7 @@ LZ1_ApplyDeformWater:
 		lea	LZ1_DeformArray(pc),a4
 		lea	(Camera_X_pos_BG_copy).w,a5
 		subq.w	#1,d1								; 223-1
-		jsr	(ApplyBGDeformation3).w
+		bsr.w	ApplyBGDeformation3
 		pea	(a1)								; save H_scroll_buffer+normal position
 
 		; foreground deformation
@@ -130,7 +130,7 @@ LZ1_ApplyDeformWater:
 		adda.w	d2,a6
 		move.w	(Camera_X_pos_copy).w,d6
 		neg.w	d6
-		jsr	(MakeFGDeformArray).w
+		bsr.w	MakeFGDeformArray
 		movea.l	(sp)+,a1							; load H_scroll_buffer+normal position
 
 		; background deformation
@@ -146,7 +146,7 @@ LZ1_ApplyDeformWater:
 		add.w	d0,d2
 		andi.w	#$1FE,d2
 		adda.w	d2,a6
-		jmp	(ApplyFGandBGDeformation).w
+		bra.w	ApplyFGandBGDeformation
 ; ---------------------------------------------------------------------------
 
 .waterfull
@@ -162,7 +162,7 @@ LZ1_ApplyDeformWater:
 		adda.w	d2,a6
 		move.w	(Camera_X_pos_copy).w,d6
 		neg.w	d6
-		jsr	(MakeFGDeformArray).w
+		bsr.w	MakeFGDeformArray
 
 		; background deformation
 		lea	(H_scroll_table).w,a2						; load water buffer
@@ -175,7 +175,7 @@ LZ1_ApplyDeformWater:
 		add.w	d0,d2
 		andi.w	#$1FE,d2
 		adda.w	d2,a6
-		jmp	(ApplyFGandBGDeformation3).w
+		bra.w	ApplyFGandBGDeformation3
 ; ---------------------------------------------------------------------------
 
 LZ1_DeformArray:	dc.w $7FFF	; foreground and background ; end marker

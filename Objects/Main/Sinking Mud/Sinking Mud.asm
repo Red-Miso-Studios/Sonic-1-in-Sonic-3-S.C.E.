@@ -91,9 +91,8 @@ Obj_SinkingMud:
 		move.b	#$30,(a2)							; reset depth of the mud
 
 		; kill player
-		move.w	a0,-(sp)
-		movea.w	a0,a2
-		movea.w	a1,a0
-		jsr	(Kill_Character).l
-		movea.w	(sp)+,a0
+		movea.w	a0,a2								; save current object
+		movea.w	a1,a0								; a0=character
+		jsr	(Kill_Character).w						; "
+		movea.w	a2,a0								; restore current object
 		rts

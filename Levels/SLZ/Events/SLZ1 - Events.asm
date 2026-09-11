@@ -7,8 +7,8 @@
 SLZ1_ForegroundInit:
 
 		; update FG
-		jsr	(Reset_FGTileOffsetPositionHScroll).w
-		jmp	(Refresh_PlaneFullHScroll).w
+		bsr.w	Reset_FGTileOffsetPositionHScroll
+		bra.w	Refresh_PlaneFullHScroll
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -16,14 +16,14 @@ SLZ1_BackgroundInit:
 		bsr.s	SLZ1_Deform
 
 		; update BG
-		jsr	(Reset_BGTileOffsetPositionHScroll).w
+		bsr.w	Reset_BGTileOffsetPositionHScroll
 		moveq	#0,d1								; Camera_X_pos_BG_copy
-		jsr	(Refresh_PlaneFullHScroll).w
+		bsr.w	Refresh_PlaneFullHScroll
 
 		; deform
 		lea	SLZ1_BGDeformArray(pc),a4
 		lea	(H_scroll_table).w,a5
-		jmp	(ApplyBGDeformation).w
+		bra.w	ApplyBGDeformation
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -37,12 +37,12 @@ SLZ1_BackgroundEvent:
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1								; Camera_X_pos_BG_copy
 		moveq	#gameplay_plane_width/block_width,d6
-		jsr	(Draw_TileRow).w
+		bsr.w	Draw_TileRow
 
 		; deform
 		lea	SLZ1_BGDeformArray(pc),a4
 		lea	(H_scroll_table).w,a5
-		jmp	(ApplyBGDeformation).w
+		bra.w	ApplyBGDeformation
 ; ---------------------------------------------------------------------------
 
 SLZ1_Transition:

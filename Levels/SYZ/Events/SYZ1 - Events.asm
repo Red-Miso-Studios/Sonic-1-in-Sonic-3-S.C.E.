@@ -7,8 +7,8 @@
 SYZ1_ForegroundInit:
 
 		; update FG
-		jsr	(Reset_FGTileOffsetPositionHScroll).w
-		jmp	(Refresh_PlaneFullHScroll).w
+		bsr.w	Reset_FGTileOffsetPositionHScroll
+		bra.w	Refresh_PlaneFullHScroll
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -19,14 +19,14 @@ SYZ3_ForegroundEvent:
 		; redraw boss block
 		move.w	(Camera_X_pos_copy).w,d1
 		move.w	(Camera_Y_pos_copy).w,d2
-		jsr	(Draw_PlaneVertBottomUp).w					; refresh main plane
+		bsr.w	Draw_PlaneVertBottomUp						; refresh main plane
 		bpl.s	.draw
 		clr.b	(Screen_event_flag).w						; clear redraw flag
 
 .draw
 
 		; update FG
-		jmp	(Draw_FGAsYouMove).w
+		bra.w	Draw_FGAsYouMove
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -34,14 +34,14 @@ SYZ1_BackgroundInit:
 		bsr.s	SYZ1_Deform
 
 		; update BG
-		jsr	(Reset_BGTileOffsetPositionHScroll).w
+		bsr.w	Reset_BGTileOffsetPositionHScroll
 		moveq	#0,d1								; Camera_X_pos_BG_copy
-		jsr	(Refresh_PlaneFullHScroll).w
+		bsr.w	Refresh_PlaneFullHScroll
 
 		; deform
 		lea	SYZ1_BGDeformArray(pc),a4
 		lea	(H_scroll_table).w,a5
-		jmp	(ApplyBGDeformation).w
+		bra.w	ApplyBGDeformation
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -55,12 +55,12 @@ SYZ1_BackgroundEvent:
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1								; Camera_X_pos_BG_copy
 		moveq	#gameplay_plane_width/block_width,d6
-		jsr	(Draw_TileRow).w
+		bsr.w	Draw_TileRow
 
 		; deform
 		lea	SYZ1_BGDeformArray(pc),a4
 		lea	(H_scroll_table).w,a5
-		jmp	(ApplyBGDeformation).w
+		bra.w	ApplyBGDeformation
 ; ---------------------------------------------------------------------------
 
 SYZ1_Transition:

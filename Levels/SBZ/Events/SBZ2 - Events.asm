@@ -17,8 +17,8 @@ SBZ2_ForegroundInit:
 		move.w	#$3C,(Layout_row_index_mask).w					; set layout y size: $7FF
 
 		; update FG
-		jsr	(Reset_FGTileOffsetPositionHScroll).w
-		jmp	(Refresh_PlaneFullHScroll).w
+		bsr.w	Reset_FGTileOffsetPositionHScroll
+		bra.w	Refresh_PlaneFullHScroll
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -27,7 +27,7 @@ SBZ2_ForegroundEvent:
 		add.w	d0,(Camera_Y_pos_copy).w
 
 		; update FG
-		jmp	(Draw_FGAsYouMove).w
+		bra.w	Draw_FGAsYouMove
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -40,11 +40,11 @@ SBZ2_BackgroundInit:
 		bsr.s	SBZ2_Deform
 
 		; update BG
-		jsr	(Reset_BGTileOffsetPositionHScroll).w
-		jsr	(Refresh_PlaneFullHScroll).w
+		bsr.w	Reset_BGTileOffsetPositionHScroll
+		bsr.w	Refresh_PlaneFullHScroll
 
 		; deform
-		jmp	(PlainDeformation).w
+		bra.w	PlainDeformation
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -54,10 +54,10 @@ SBZ2_BackgroundEvent:
 		bsr.s	SBZ2_Deform
 
 		; update BG
-		jsr	(Draw_BGAsYouMove).w
+		bsr.w	Draw_BGAsYouMove
 
 		; deform
-		jsr	(PlainDeformation).w
+		bsr.w	PlainDeformation
 		jmp	(ShakeScreen_Setup).w
 ; ---------------------------------------------------------------------------
 
@@ -76,7 +76,7 @@ SBZ2_Deform:
 		addq.w	#1,d3								; wrap size
 		move.w	d3,d2
 		lsr.w	d2								; wrap half size
-		jsr	(Adjust_BGDuringLoop).w
+		bsr.w	Adjust_BGDuringLoop
 		move.w	-(a1),d0							; 100% to d0 ($1000) ; Events_bg+2
 		move.w	(Screen_shaking_offset).w,d1					; shake data to d1
 		sub.w	d1,d0
